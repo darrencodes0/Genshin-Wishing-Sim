@@ -6,7 +6,7 @@ public class Summoner{
         this.primoGems = primos;
     }
 
-    public void characterBannerSummon(int summons, Characters characters, Weapons weapons){
+    public void standardBannerSummon(int summons, Characters characters, Weapons weapons){
         if(primoGems < (160 * summons)){
             System.out.println("Not enough primogems for this transaction.");
             return;
@@ -23,26 +23,41 @@ public class Summoner{
                 System.out.println("You got a guaranteed 5* Character!");
                 int generatedValue = rnd.nextInt(characters.getFiveStarCharacters().size());
                 System.out.println("(5*)(C) " + characters.getFiveStarCharacters().get(generatedValue));
+                characters.getYourFiveStarCharacters().add(characters.getFiveStarCharacters().get(generatedValue)); // adds 5* weapon
                 FiveStarCharacterPity = 0;
                 FourStarCharacterPity = 0;
                 FiveStarCharacters++;
             } else if(FourStarCharacterPity == 10){
-                System.out.println("You got a guaranteed 4* Character!");
-                int generatedValue = rnd.nextInt(characters.getFourStarCharacters().size());
-                System.out.println("(4*)(C) " + characters.getFourStarCharacters().get(generatedValue));
+                int weaponOrCharacter = rnd.nextInt(2);
+                if(weaponOrCharacter == 0) {
+                    System.out.println("You got a guaranteed 4* Character!");
+                    int generatedValue = rnd.nextInt(characters.getFourStarCharacters().size());
+                    System.out.println("(4*)(C) " + characters.getFourStarCharacters().get(generatedValue));
+                } else{
+                    System.out.println("You got a guaranteed 4* Weapon!");
+                    int generatedValue = rnd.nextInt(weapons.getFourStarWeapons().size());
+                    System.out.println("(4*)(W) " + weapons.getFourStarWeapons().get(generatedValue));
+                }
                 FourStarCharacterPity = 0;
             } else if (generatedNumber >= 7) {  // includes numbers from 7 - 100 (94%)
                 int generatedValue = rnd.nextInt(weapons.getThreeStarWeapons().size());
                 System.out.println("(3*)(W) " + weapons.getThreeStarWeapons().get(generatedValue));
-            } else if (generatedNumber >= 1) { // includes numbers from 2-6 (6%)
+            } else if (generatedNumber >= 4) { // includes numbers from 4-6 (3%)
                 int generatedValue = rnd.nextInt(characters.getFourStarCharacters().size());
                 System.out.println("You got a 4* Character!");
                 System.out.println("(4*)(C) " + characters.getFourStarCharacters().get(generatedValue));
                 FourStarCharacterPity = 0;
-            } else { // number 1 (1%)
+            } else if (generatedNumber >= 1) { // includes numbers from 1-3 (3%)
+                System.out.println("You got a 4* Weapon!");
+                int generatedValue = rnd.nextInt(weapons.getFourStarWeapons().size());
+                System.out.println("(4*)(W) " + weapons.getFourStarWeapons().get(generatedValue));
+                FourStarCharacterPity = 0;
+            } else { // number 0 (1%)
+                fiftyFiftyPity();
                 int generatedValue = rnd.nextInt(characters.getFiveStarCharacters().size());
                 System.out.println("You got a 5* Character!");
                 System.out.println("(5*)(C) " + characters.getFiveStarCharacters().get(generatedValue));
+                characters.getYourFiveStarCharacters().add(characters.getFiveStarCharacters().get(generatedValue)); // adds 5* weapon
                 FiveStarCharacterPity = 0;
                 FiveStarCharacters++;
             }
@@ -66,37 +81,51 @@ public class Summoner{
             FiveStarWeaponPity++;
             FourStarWeaponPity++;
 
-            if(FiveStarWeaponPity == 90) { // guarnteed 5* when hit 90 pity
+            if(FiveStarWeaponPity == 90) { // guaranteed 5* when hit 90 pity
                 seventyFivePity();
                 System.out.println("You got a guaranteed 5* Weapon!");
                 int generatedValue = rnd.nextInt(weapons.getFiveStarWeapons().size());
                 System.out.println("(5*)(W) " + weapons.getFiveStarWeapons().get(generatedValue));
+                weapons.getYourFiveStarWeapons().add(weapons.getFiveStarWeapons().get(generatedValue)); // adds the 5* weapon
                 FiveStarWeaponPity = 0;
                 FourStarWeaponPity = 0;
                 FiveStarWeapons++;
             } else if(FourStarWeaponPity == 10){
-                System.out.println("You got a guaranteed 4* Weapon!");
-                int generatedValue = rnd.nextInt(weapons.getFourStarWeapons().size());
-                System.out.println("(4*)(W) " + weapons.getFourStarWeapons().get(generatedValue));
+                int weaponOrCharacter = rnd.nextInt(2);
+                if(weaponOrCharacter == 0) {
+                    System.out.println("You got a guaranteed 4* Character!");
+                    int generatedValue = rnd.nextInt(characters.getFourStarCharacters().size());
+                    System.out.println("(4*)(C) " + characters.getFourStarCharacters().get(generatedValue));
+                } else{
+                    System.out.println("You got a guaranteed 4* Weapon!");
+                    int generatedValue = rnd.nextInt(weapons.getFourStarWeapons().size());
+                    System.out.println("(4*)(W) " + weapons.getFourStarWeapons().get(generatedValue));
+                }
                 FourStarWeaponPity = 0;
             } else if (generatedNumber >= 7) {  // includes numbers from 7 - 100 (94%)
                 int generatedValue = rnd.nextInt(weapons.getThreeStarWeapons().size());
                 System.out.println("(3*)(W) " + weapons.getThreeStarWeapons().get(generatedValue));
-            } else if (generatedNumber >= 1) { // includes numbers from 1-6 (6%)
+            } else if (generatedNumber >= 4) { // includes numbers from 6-4 (3%)
                 System.out.println("You got a 4* Weapon!");
                 int generatedValue = rnd.nextInt(weapons.getFourStarWeapons().size());
                 System.out.println("(4*)(W) " + weapons.getFourStarWeapons().get(generatedValue));
                 FourStarWeaponPity = 0;
+            } else if (generatedNumber >= 1) { // includes numbers from 1-3 (3%)
+                int generatedValue = rnd.nextInt(characters.getFourStarCharacters().size());
+                System.out.println("You got a 4* Character!");
+                System.out.println("(4*)(C) " + characters.getFourStarCharacters().get(generatedValue));
+                FourStarWeaponPity = 0;
             } else { // number 0 (1%)
+                seventyFivePity();
                 int generatedValue = rnd.nextInt(weapons.getFiveStarWeapons().size());
                 System.out.println("You got a 5* Weapon!");
                 System.out.println("(5*)(W) " + weapons.getFiveStarWeapons().get(generatedValue));
+                weapons.getYourFiveStarWeapons().add(weapons.getFiveStarWeapons().get(generatedValue)); // adds the 5* weapon
                 FiveStarWeaponPity = 0;
                 FiveStarWeapons++;
             }
             totalWeaponBannerSummons++;
         }
-
         pityReset();
     }
 
@@ -112,22 +141,37 @@ public class Summoner{
     }
 
     // flips a coin, 1 - win 50/50, 2 - lose 50/50
-    private void fiftyFiftyPity(){
+    private void fiftyFiftyPity() {
+        boolean wonfiftyFifty = true;
         int fiftyFifty = rnd.nextInt(2);
-        if(fiftyFifty == 1){
+
+        if (fiftyFifty == 0) { // Player wins 50/50
             System.out.println("You won the 50/50 pity!");
-        } else{
-            System.out.println("You lost the 50/50 pity!");
+            wonfiftyFifty = true;
+        } else if (fiftyFifty == 1 && !wonfiftyFifty) { // Player loses, but is guaranteed to win next time
+            System.out.println("You are guaranteed to win the 50/50 pity!");
+            wonfiftyFifty = true;
+        } else if (fiftyFifty == 1) { // Player loses
+            System.out.println("You lost the 50/50");
+            wonfiftyFifty = false;
         }
     }
 
     // 1 - 3 (75%) , 0 (25%) pity
     private void seventyFivePity(){
-        int fiftyFifty = rnd.nextInt(4);
-        if(fiftyFifty >= 1){
+
+        boolean wonseventyFive = true;
+        int seventyFive = rnd.nextInt(4);
+
+        if(seventyFive >= 1){
             System.out.println("You won the 75/25 pity!");
-        } else{
+            wonseventyFive = true;
+        } else if(seventyFive == 0 & !wonseventyFive){
+            System.out.println("You are guaranteed to win the 75/25 pity!");
+            wonseventyFive = true;
+        } else if(seventyFive == 0){
             System.out.println("You lost the 75/25 pity!");
+            wonseventyFive = false;
         }
     }
 
