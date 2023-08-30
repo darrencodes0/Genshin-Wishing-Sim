@@ -6,68 +6,45 @@ public class Summoner{
         this.primoGems = primos;
     }
 
-    public void characterBannerSingleSummon(Characters characters, Weapons weapons){
-        if(primoGems < 160){
+    public void characterBannerSummon(int summons, Characters characters, Weapons weapons){
+        if(primoGems < (160 * summons)){
             System.out.println("Not enough primogems for this transaction.");
             return;
         }
 
-        int generatedNumber = rnd.nextInt(101); // includes number from 0 = 100
-        primoGems -= summonCost;
-        FiveStarCharacterPity++;
-
-        if(FiveStarCharacterPity == 90){ // guarnteed 5* when hit 90 pity
-            fiftyFiftyPity();
-            System.out.println("You got a 5* Character!");
-            int generatedValue = rnd.nextInt(characters.getFiveStarCharacters().size());
-            System.out.println("(5*)(C) " + characters.getFiveStarCharacters().get(generatedValue));
-            FiveStarCharacterPity = 0;
-        } else if(generatedNumber >= 7){  // includes numbers from 7 - 100 (94%)
-            int generatedValue = rnd.nextInt(weapons.getThreeStarWeapons().size());
-            System.out.println("(3*)(W) " + weapons.getThreeStarWeapons().get(generatedValue));
-        } else if(generatedNumber >= 1){ // includes numbers from 2-6 (6%)
-            int generatedValue = rnd.nextInt(characters.getFourStarCharacters().size());
-            System.out.println("(4*)(C) " + characters.getFourStarCharacters().get(generatedValue));
-        } else{ // number 0 (1%)
-            int generatedValue = rnd.nextInt(characters.getFiveStarCharacters().size());
-            System.out.println("You got a 5* Character!");
-            System.out.println("(5*)(C) " + characters.getFiveStarCharacters().get(generatedValue));
-            FiveStarCharacterPity = 0;
-        }
-
-        totalCharacterBannerSummons++;
-
-        pityReset();
-    }
-
-    public void characterBannerMultiSummon(Characters characters, Weapons weapons){
-        if(primoGems < 1600){
-            System.out.println("Not enough primogems for this transaction.");
-            return;
-        }
-
-        for(int i = 0; i < 10; i++) {
+        for(int i = 0; i < summons; i++) {
             int generatedNumber = rnd.nextInt(101); // includes number from 0 = 100
             primoGems -= summonCost;
             FiveStarCharacterPity++;
+            FourStarCharacterPity++;
 
             if(FiveStarCharacterPity == 90){ // guarnteed 5* when hit 90 pity
                 fiftyFiftyPity();
-                System.out.println("You got a 5* Character!");
+                System.out.println("You got a guaranteed 5* Character!");
                 int generatedValue = rnd.nextInt(characters.getFiveStarCharacters().size());
                 System.out.println("(5*)(C) " + characters.getFiveStarCharacters().get(generatedValue));
                 FiveStarCharacterPity = 0;
+                FourStarCharacterPity = 0;
+                FiveStarCharacters++;
+            } else if(FourStarCharacterPity == 10){
+                System.out.println("You got a guaranteed 4* Character!");
+                int generatedValue = rnd.nextInt(characters.getFourStarCharacters().size());
+                System.out.println("(4*)(C) " + characters.getFourStarCharacters().get(generatedValue));
+                FourStarCharacterPity = 0;
             } else if (generatedNumber >= 7) {  // includes numbers from 7 - 100 (94%)
                 int generatedValue = rnd.nextInt(weapons.getThreeStarWeapons().size());
                 System.out.println("(3*)(W) " + weapons.getThreeStarWeapons().get(generatedValue));
             } else if (generatedNumber >= 1) { // includes numbers from 2-6 (6%)
                 int generatedValue = rnd.nextInt(characters.getFourStarCharacters().size());
+                System.out.println("You got a 4* Character!");
                 System.out.println("(4*)(C) " + characters.getFourStarCharacters().get(generatedValue));
+                FourStarCharacterPity = 0;
             } else { // number 1 (1%)
                 int generatedValue = rnd.nextInt(characters.getFiveStarCharacters().size());
                 System.out.println("You got a 5* Character!");
                 System.out.println("(5*)(C) " + characters.getFiveStarCharacters().get(generatedValue));
                 FiveStarCharacterPity = 0;
+                FiveStarCharacters++;
             }
 
             totalCharacterBannerSummons++;
@@ -76,69 +53,46 @@ public class Summoner{
         pityReset();
     }
 
-    public void weaponBannerSingleSummon(Characters characters, Weapons weapons){
-        if(primoGems < 160){
+
+    public void weaponBannerSummon(int summons, Characters characters, Weapons weapons){
+        if(primoGems < (160 * summons)){
             System.out.println("Not enough primogems for this transaction.");
             return;
         }
 
+        for(int i = 0; i < summons; i++) {
             int generatedNumber = rnd.nextInt(101); // includes number from 0 = 100
             primoGems -= summonCost;
-
             FiveStarWeaponPity++;
+            FourStarWeaponPity++;
 
             if(FiveStarWeaponPity == 90) { // guarnteed 5* when hit 90 pity
                 seventyFivePity();
-                System.out.println("You got a 5* Weapon!");
+                System.out.println("You got a guaranteed 5* Weapon!");
                 int generatedValue = rnd.nextInt(weapons.getFiveStarWeapons().size());
                 System.out.println("(5*)(W) " + weapons.getFiveStarWeapons().get(generatedValue));
                 FiveStarWeaponPity = 0;
+                FourStarWeaponPity = 0;
+                FiveStarWeapons++;
+            } else if(FourStarWeaponPity == 10){
+                System.out.println("You got a guaranteed 4* Weapon!");
+                int generatedValue = rnd.nextInt(weapons.getFourStarWeapons().size());
+                System.out.println("(4*)(W) " + weapons.getFourStarWeapons().get(generatedValue));
+                FourStarWeaponPity = 0;
             } else if (generatedNumber >= 7) {  // includes numbers from 7 - 100 (94%)
                 int generatedValue = rnd.nextInt(weapons.getThreeStarWeapons().size());
                 System.out.println("(3*)(W) " + weapons.getThreeStarWeapons().get(generatedValue));
             } else if (generatedNumber >= 1) { // includes numbers from 1-6 (6%)
+                System.out.println("You got a 4* Weapon!");
                 int generatedValue = rnd.nextInt(weapons.getFourStarWeapons().size());
                 System.out.println("(4*)(W) " + weapons.getFourStarWeapons().get(generatedValue));
+                FourStarWeaponPity = 0;
             } else { // number 0 (1%)
                 int generatedValue = rnd.nextInt(weapons.getFiveStarWeapons().size());
                 System.out.println("You got a 5* Weapon!");
                 System.out.println("(5*)(W) " + weapons.getFiveStarWeapons().get(generatedValue));
                 FiveStarWeaponPity = 0;
-            }
-            totalWeaponBannerSummons++;
-
-
-        pityReset();
-    }
-
-    public void weaponBannerMultiSummon(Characters characters, Weapons weapons){
-        if(primoGems < 1600){
-            System.out.println("Not enough primogems for this transaction.");
-            return;
-        }
-
-        for(int i = 0; i < 10; i++) {
-            int generatedNumber = rnd.nextInt(101); // includes number from 0 = 100
-            primoGems -= summonCost;
-            FiveStarWeaponPity++;
-
-            if(FiveStarWeaponPity == 90) { // guarnteed 5* when hit 90 pity
-                seventyFivePity();
-                System.out.println("You got a 5* Weapon!");
-                int generatedValue = rnd.nextInt(weapons.getFiveStarWeapons().size());
-                System.out.println("(5*)(W) " + weapons.getFiveStarWeapons().get(generatedValue));
-                FiveStarWeaponPity = 0;
-            } else if (generatedNumber >= 7) {  // includes numbers from 7 - 100 (94%)
-                int generatedValue = rnd.nextInt(weapons.getThreeStarWeapons().size());
-                System.out.println("(3*)(W) " + weapons.getThreeStarWeapons().get(generatedValue));
-            } else if (generatedNumber >= 1) { // includes numbers from 1-6 (6%)
-                int generatedValue = rnd.nextInt(weapons.getFourStarWeapons().size());
-                System.out.println("(4*)(W) " + weapons.getFourStarWeapons().get(generatedValue));
-            } else { // number 0 (1%)
-                int generatedValue = rnd.nextInt(weapons.getFiveStarWeapons().size());
-                System.out.println("You got a 5* Weapon!");
-                System.out.println("(5*)(W) " + weapons.getFiveStarWeapons().get(generatedValue));
-                FiveStarWeaponPity = 0;
+                FiveStarWeapons++;
             }
             totalWeaponBannerSummons++;
         }
@@ -185,6 +139,14 @@ public class Summoner{
         return FiveStarWeaponPity;
     }
 
+    public int getFourStarCharacterPity() {
+        return FourStarCharacterPity;
+    }
+
+    public int getFourStarWeaponPity() {
+        return FourStarWeaponPity;
+    }
+
     public int getTotalCharacterBannerSummons() {
         return totalCharacterBannerSummons;
     }
@@ -193,15 +155,31 @@ public class Summoner{
         return totalWeaponBannerSummons;
     }
 
+    public int getFiveStarWeapons() {
+        return FiveStarWeapons;
+    }
+
+    public int getFiveStarCharacters() {
+        return FiveStarCharacters;
+    }
+
     public int getPrimoGems() {
         return primoGems;
+    }
+
+    protected void setPrimoGems(int primoGems) {
+        this.primoGems = primoGems;
     }
 
     Random rnd = new Random();
     private int totalCharacterBannerSummons = 0;
     private int totalWeaponBannerSummons = 0;
     private int FiveStarCharacterPity = 0;
+    private int FourStarCharacterPity = 0;
+    private int FourStarWeaponPity = 0;
     private int FiveStarWeaponPity = 0;
-    private int primoGems = 0;
+    private int FiveStarCharacters = 0;
+    private int FiveStarWeapons = 0;
+    private int primoGems;
     private final int summonCost = 160;
 }
