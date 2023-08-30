@@ -140,7 +140,7 @@ public class Summoner{
         }
     }
 
-    // flips a coin, 1 - win 50/50, 2 - lose 50/50
+    // flips a coin, 0 - win 50/50, 1 - lose 50/50
     private void fiftyFiftyPity() {
         boolean wonfiftyFifty = true;
         int fiftyFifty = rnd.nextInt(2);
