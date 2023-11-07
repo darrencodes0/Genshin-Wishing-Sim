@@ -1,3 +1,3 @@
 # Genshin-Wishing-Sim
-collaborating with Calvin on this project
+collab
 text-only
